@@ -5,13 +5,33 @@ const { GraphQLServer } = require('graphql-yoga')
 const typeDefs = `
 type Query {
     info: String!
+    feed: [Link!]!
+}
+
+type Link {
+    id: ID!
+    description: String!
+    url: String!
 }
 `
+// Resolver function for links array
+let links = [{
+    id: 'link-0',
+    url: 'www.howtographql.com',
+    description: 'Fullstack tutorial for GraphQL'
+}]
 
 // Implementation of the graphql schema, structured the same as the schema
 const resolvers = {
     Query: {
-        info: () => `This is the API of a Hackernews Clone`
+        info: () => `This is the API of a Hackernews Clone`,
+        feed: () => links,
+    },
+
+    Link: {
+        id: (parent) => parent.id,
+        description: (parent) => parent.description,
+        url: (parent) => parent.url,
     }
 }
 
